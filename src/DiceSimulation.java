@@ -1,9 +1,8 @@
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class DiceSimulation {
 
-    private int numDices;
+    private final int numDices;
     private List<Dice> dices;
     private Map<Integer, Integer> stats;
     private int iterations = 0;
@@ -50,7 +49,6 @@ public class DiceSimulation {
 
             if (dices.size() > 1) {
                 dices.remove(0);
-
             }
         }
 
@@ -73,7 +71,7 @@ public class DiceSimulation {
     }
 
     public void printStats() {
-        System.out.printf("\nNumber of simulations was %d using %d dice\n", iterations, numDices);
+        System.out.printf("\nNumber of simulations was %d using %d dice. \n", iterations, numDices);
         Set<Integer> keys = stats.keySet();
 
         for (Integer key : keys) {
