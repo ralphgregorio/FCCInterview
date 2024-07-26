@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class DiceSimulation {
 
@@ -6,6 +7,7 @@ public class DiceSimulation {
     private List<Dice> dices;
     private Map<Integer, Integer> stats;
     private int iterations = 0;
+    private double elapsedTime = 0;
 
     public DiceSimulation(int numDices) {
         this.dices = new ArrayList<>();
@@ -57,18 +59,22 @@ public class DiceSimulation {
 
     public void simulate(int iterations) {
         stats = new HashMap<>();
+        long startTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+
         this.iterations = iterations;
         for (int i = 0; i < iterations; i++) {
             resetDices();
             int score = simulate();
-            stats.put(score, stats.getOrDefault(score, 1) + 1);
+            stats.put(score, stats.getOrDefault(score, 0) + 1);
         }
+
+        long endTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+        elapsedTime = endTime - startTime;
     }
 
     public void printStats() {
-        System.out.printf("Number of simulations was %d using %d dice\n", iterations, numDices);
+        System.out.printf("\nNumber of simulations was %d using %d dice\n", iterations, numDices);
         Set<Integer> keys = stats.keySet();
-        int test = 0;
 
         for (Integer key : keys) {
             System.out.printf(
@@ -77,15 +83,17 @@ public class DiceSimulation {
                 (float) stats.get(key)/iterations,
                 stats.get(key)
             );
-            test += stats.get(key);
         }
-        System.out.println(test);
-
+        System.out.printf("Total simulation took %f seconds. \n", elapsedTime);
     }
 
     public static void main(String[] args) {
-        DiceSimulation simulation = new DiceSimulation(5);
-        simulation.simulate(10);
-        simulation.printStats();
+        DiceSimulation simulation1 = new DiceSimulation(5);
+        simulation1.simulate(10);
+        simulation1.printStats();
+
+        DiceSimulation simulation2 = new DiceSimulation(6);
+        simulation2.simulate(100);
+        simulation2.printStats();
     }
 }
