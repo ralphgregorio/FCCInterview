@@ -59,7 +59,7 @@ public class DiceSimulation {
 
     public void simulate(int iterations) {
         stats = new HashMap<>();
-        long startTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+        long startTime = System.currentTimeMillis();
 
         this.iterations = iterations;
         for (int i = 0; i < iterations; i++) {
@@ -68,8 +68,8 @@ public class DiceSimulation {
             stats.put(score, stats.getOrDefault(score, 0) + 1);
         }
 
-        long endTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-        elapsedTime = endTime - startTime;
+        long endTime = System.currentTimeMillis();
+        elapsedTime = (endTime - startTime) / 1000.0;
     }
 
     public void printStats() {
@@ -88,8 +88,8 @@ public class DiceSimulation {
     }
 
     public static void main(String[] args) {
-        DiceSimulation simulation1 = new DiceSimulation(5);
-        simulation1.simulate(10);
+        DiceSimulation simulation1 = new DiceSimulation(2);
+        simulation1.simulate(100);
         simulation1.printStats();
 
         DiceSimulation simulation2 = new DiceSimulation(6);
